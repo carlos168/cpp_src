@@ -9,6 +9,8 @@
 
 #include <list>
 
+std::list<pid_t> pidList;
+
 int init_daemon(int nochdir, int noclose)
 {
     int fd;
@@ -18,6 +20,7 @@ int init_daemon(int nochdir, int noclose)
     pid = fork();
     switch(pid) {
         case -1:    //failed to creat child process
+            printf("init_daemon failed to create first child process.\n");
             return -1;
         case 0:     //child process
             break;
@@ -35,6 +38,7 @@ int init_daemon(int nochdir, int noclose)
     pid = fork();
     switch(pid) {
         case -1:    //failed to creat child process
+            printf("init_daemon failed to create second child process.\n");
             return -1;
         case 0:     //second child process
             break;
@@ -83,9 +87,10 @@ void waitForChildProc(int signo)
 {
     pid_t pid;
     int stat;
-    while(pid = waitpid(-1, &stat, WNOHANG) > 0)
+    while((pid = waitpid(-1, &stat, WNOHANG)) > 0)
     {
         printf("child process %d exit.\n", pid);
+        pidList.remove(pid);
     }
     printf("waitForChildProc exit.\n");
     return;
@@ -94,7 +99,8 @@ void waitForChildProc(int signo)
 int daemon_loop()
 {
     printf("this is daemon process[%d], parent process is [%d].\n", getpid(), getppid());
-    signal(SIG_CHLD, waitForChildProc);
+    signal(SIGCHLD, waitForChildProc);
+    printf("daemon is end.\n");
     return 0;
 }
 
@@ -122,6 +128,7 @@ int createChildProcesses(int num, std::list<pid_t> &pidList)
         }
         exit(0);
     } else if (pid == -1) {
+        printf("failed to create child proc.\n");
         return -1;
     } else {
         pidList.push_back(pid);
@@ -130,23 +137,37 @@ int createChildProcesses(int num, std::list<pid_t> &pidList)
     return 0;
 }
 
+void exitDaemon(std::list<pid_t> &pidList)
+{
+    for (std::list<pid_t>::iterator it = pidList.begin(); it != pidList.end(); ++it) {
+        printf("kill child proc[%d]\n", *it);
+        kill(*it, SIGABRT);
+    }
+    return;
+}
+
+
+//std::list<pid_t> pidList;
+
 int main()
 {
     if (0 != init_daemon(1, 1)) {
         return -1;
     }
-    std:list<pid_t> pidList;
+//    std::list<pid_t> pidList;
     if (0 != createChildProcesses(5, pidList)) {   
         //failed to create child proc, kill all exist child proc and exit
-        for (std::list<pid_t>::iterator it = pidList.begin(); it != pidList.end(); ++it) {
-            printf("kill child proc[%d]\n", *it);
-            kill(*it, SIGABRT);
-        }
+        exitDaemon(pidList);
         exit(-1);
     }
     if (0 != daemon_loop()) {
+        exitDaemon(pidList);
         exit(-1);
     }
+    sleep(10);
+    exitDaemon(pidList);
+        
     return 0;
 }
 
+//g++ -g -Wall fork.cpp
