@@ -3,6 +3,10 @@
 #include <unistd.h>
 #include <string.h>
 
+/*
+平滑加权轮询算法实现
+*/
+
 typedef struct
 {
     int weight;
@@ -41,13 +45,17 @@ int getNextServerIndex(server *ss, int size)
     int index = -1;
     int total = 0;
 
+    printf("size =%d\n", size);
     for (i = 0; i < size; i++)
     {
+        printf("i = %d==============\n", i);
         ss[i].cur_weight += ss[i].weight;
         total += ss[i].weight;
 
+        printf("ss[%d].cur_weight=%d, ss[%d].cur_weight=%d\n", index, ss[index].cur_weight, i, ss[i].cur_weight);
         if (index == -1 || ss[index].cur_weight < ss[i].cur_weight)
         {
+            printf("index = %d, i = %d =======\n", index, i);
             index = i;
         }
     }
@@ -61,6 +69,7 @@ void wrr_nginx(server *ss, int *weights, int size)
     int i = 0;
     int index = -1;
     int sum = getsum(weights, size);
+    printf("sum=%d\n", sum);
 
     for (i = 0; i < sum; i++) 
     {
