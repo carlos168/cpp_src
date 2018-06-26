@@ -1,0 +1,15 @@
+[global]
+default format="%-22d%-5V  %m%n"
+
+[formats]
+simple = "%m%n"
+warn = "%d %V [%p:%F:%L] %m%n"
+
+[rules]
+my_cat.=DEBUG    "./logs/debug.log", 100MB * 1 ~ "./logs/debug.log.#r"; simple
+my_cat.=INFO     >stdout; simple
+my_cat.=NOTICE   "./logs/notice.%d(%F).log", 100MB * 1 ~ "./logs/notice.%d(%F).log.#r";
+my_cat.=WARN     "./logs/warn.log"; warn
+my_cat.=ERROR    "./logs/error.log";
+my_cat.=ERROR    >stdout;
+

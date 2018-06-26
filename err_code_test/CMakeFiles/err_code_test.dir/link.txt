@@ -1,0 +1,1 @@
+/Library/Developer/CommandLineTools/usr/bin/cc -Wall -g -D_GNU_SOURCE -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/err_code_test.dir/main.c.o  -o err_code_test -lzlog -lpthread 

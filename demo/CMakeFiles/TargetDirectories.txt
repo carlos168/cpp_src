@@ -1,0 +1,3 @@
+/Users/lsx/data/src/demo/CMakeFiles/rebuild_cache.dir
+/Users/lsx/data/src/demo/CMakeFiles/edit_cache.dir
+/Users/lsx/data/src/demo/CMakeFiles/demo.dir

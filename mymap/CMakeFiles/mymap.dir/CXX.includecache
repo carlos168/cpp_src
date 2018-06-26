@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/lsx/src_git/cpp_src/mymap/common.h
+iostream
+-
+string
+-
+map
+-
+stdlib.h
+-
+stdio.h
+-
+string.h
+-
+
+/Users/lsx/src_git/cpp_src/mymap/main.cpp
+iostream
+-
+string
+-
+map
+-
+common.h
+/Users/lsx/src_git/cpp_src/mymap/common.h
+

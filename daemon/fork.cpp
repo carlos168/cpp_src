@@ -96,10 +96,17 @@ void waitForChildProc(int signo)
     return;
 }
 
+void sigterm(int signo)
+{
+    printf("signo = %d\n", signo);
+    return;
+}
+
 int daemon_loop()
 {
     printf("this is daemon process[%d], parent process is [%d].\n", getpid(), getppid());
     signal(SIGCHLD, waitForChildProc);
+    signal(SIGTERM, sigterm);
     printf("daemon is end.\n");
     return 0;
 }
@@ -164,6 +171,7 @@ int main()
         exitDaemon(pidList);
         exit(-1);
     }
+    signal(SIGTERM, sigterm);
     sleep(10);
     exitDaemon(pidList);
         

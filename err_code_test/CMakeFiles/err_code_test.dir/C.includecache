@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/lsx/data/src/err_code_test/main.c
+stdlib.h
+-
+stdio.h
+-
+zlog.h
+-
+
+/usr/local/include/zlog.h
+stdarg.h
+-
+stdio.h
+-
+

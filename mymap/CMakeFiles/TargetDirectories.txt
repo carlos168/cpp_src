@@ -1,0 +1,3 @@
+/Users/lsx/src_git/cpp_src/mymap/CMakeFiles/rebuild_cache.dir
+/Users/lsx/src_git/cpp_src/mymap/CMakeFiles/edit_cache.dir
+/Users/lsx/src_git/cpp_src/mymap/CMakeFiles/mymap.dir

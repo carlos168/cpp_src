@@ -1,0 +1,3 @@
+/Users/lsx/src_git/cpp_src/sha256/CMakeFiles/rebuild_cache.dir
+/Users/lsx/src_git/cpp_src/sha256/CMakeFiles/edit_cache.dir
+/Users/lsx/src_git/cpp_src/sha256/CMakeFiles/demo.dir
